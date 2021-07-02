@@ -1,25 +1,13 @@
+import {searchReducer} from "./rootReducer";
 import {DATASET} from "../db/db";
-import {ACTIONS_TYPE, SearchUserType} from "./actions";
-
-type initialStateType = {
-    initialData: Array<string>,
-    finalData: Array<string>
-}
-const initialState = {
-    initialData: DATASET,
-    finalData: []
-}
-export const searchReducer = (state: initialStateType = initialState, action: SearchUserType) => {
-    switch (action.type) {
-        case ACTIONS_TYPE.SEARCH_USER:
+import {ACTIONS_TYPE} from "./actions";
 
 
-            let value = action.payload.searchValue.trim().toLowerCase()
-            const finalData = state.initialData.filter(val => val.toLowerCase().match(value));
-            return {...state, finalData: finalData};
-        default:
-            return state
-    }
-}
+test('search reducer should search Adi Gallia', () => {
+    const startState = { initialData: DATASET, finalData: []};
 
+    const endState = searchReducer(startState, {  type: ACTIONS_TYPE.SEARCH_USER, payload: {searchValue: 'Adi Gallia'} })
 
+    expect(endState.finalData[0]).toBe('Adi Gallia');
+    expect(endState.finalData.length).toBe(1);
+});
